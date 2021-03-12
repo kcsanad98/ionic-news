@@ -1,17 +1,27 @@
-import { HttpClient } from "@angular/common/http"
+import { HttpClient, HttpParams } from "@angular/common/http"
 import { Injectable } from "@angular/core"
+import { LoadingController } from "@ionic/angular"
 import { environment } from "src/environments/environment"
+import { tap } from "rxjs/operators"
 
 const apiKey = environment.apiKey
 const apiUrl = environment.apiUrl
+const params = new HttpParams().set("apiKey", apiKey)
 
 @Injectable({
     providedIn: "root"
 })
 export class NewsService {
-    constructor(private http: HttpClient) {}
+    loading: any
+    constructor(private http: HttpClient, private loadingController: LoadingController) {}
 
     public getData(url) {
-        return this.http.get(`${apiUrl}/${url}apiKey=${apiKey}`)
+        this.showLoading()
+        return this.http.get(`${apiUrl}/${url}`, { params }).pipe(tap(() => this.loading.dismiss()))
+    }
+
+    public async showLoading() {
+        this.loading = await this.loadingController.create()
+        return await this.loading.present()
     }
 }
