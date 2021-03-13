@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core"
+import { NewsService } from "src/app/services/news.service"
 
 @Component({
     selector: "app-headlines",
@@ -6,7 +7,16 @@ import { Component, OnInit } from "@angular/core"
     styleUrls: ["./headlines.page.scss"]
 })
 export class HeadlinesPage implements OnInit {
-    constructor() {}
+    public news: any
+    public categories = ["India", "World", "Business", "Technology", "Entertainment", "Sports", "Science"]
 
-    ngOnInit() {}
+    constructor(private newsService: NewsService) {}
+
+    ngOnInit() {
+        this.onGetCategoryData("World")
+    }
+
+    public onGetCategoryData(category: string) {
+        this.news = this.newsService.getData(`everything?q=${category.toLowerCase()}`)
+    }
 }
