@@ -7,9 +7,10 @@ import { IonicModule } from "@ionic/angular"
 import { SourcesPageRoutingModule } from "./sources-routing.module"
 
 import { SourcesPage } from "./sources.page"
+import { PipesModule } from "src/app/pipes/pipes.module"
 
 @NgModule({
-    imports: [CommonModule, FormsModule, IonicModule, SourcesPageRoutingModule],
+    imports: [CommonModule, FormsModule, IonicModule, SourcesPageRoutingModule, PipesModule],
     declarations: [SourcesPage]
 })
 export class SourcesPageModule {}

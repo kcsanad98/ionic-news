@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core"
+import { NewsService } from "src/app/services/news.service"
 
 @Component({
     selector: "app-sources",
@@ -6,7 +7,13 @@ import { Component, OnInit } from "@angular/core"
     styleUrls: ["./sources.page.scss"]
 })
 export class SourcesPage implements OnInit {
-    constructor() {}
+    public sources: any
+    public term: string = ""
 
-    ngOnInit() {}
+    constructor(private newsService: NewsService) {}
+
+    ngOnInit() {
+        //this.sources = this.newsService.getData("sources")
+        this.newsService.getData("sources").subscribe(sources => (this.sources = sources["sources"]))
+    }
 }
