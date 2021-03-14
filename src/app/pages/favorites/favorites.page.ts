@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core"
+import { Storage } from "@ionic/storage"
 
 @Component({
     selector: "app-favorites",
@@ -6,7 +7,30 @@ import { Component, OnInit } from "@angular/core"
     styleUrls: ["./favorites.page.scss"]
 })
 export class FavoritesPage implements OnInit {
-    constructor() {}
+    sources = []
 
-    ngOnInit() {}
+    constructor(private storage: Storage) {}
+
+    ngOnInit() {
+        this.getFavorites()
+    }
+
+    public getFavorites() {
+        const storageKey = "favorite"
+        this.storage.get(storageKey).then(val => {
+            if (val) {
+                this.sources = JSON.parse(val)
+            }
+        })
+    }
+
+    public onRefresh() {
+        this.getFavorites()
+    }
+
+    public unFavorite(source) {
+        const index = this.sources.indexOf(source)
+        this.sources.splice(index, 1)
+        this.storage.set("favorite", JSON.stringify(this.sources))
+    }
 }
